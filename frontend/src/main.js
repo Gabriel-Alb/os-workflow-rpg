@@ -1,8 +1,7 @@
-import './assets/main.css'
-import './style.css'
-import '@mdi/font/css/materialdesignicons.min.css'
-
 import { createApp } from 'vue'
 import App from './App.vue'
+import '@mdi/font/css/materialdesignicons.css'
+import router from './router'
+import './style.css'
 
-createApp(App).mount('#app')
+createApp(App).use(router).mount('#app')
