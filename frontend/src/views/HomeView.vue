@@ -88,11 +88,11 @@
               <div
                 class="flex h-9 w-9 items-center justify-center rounded-xl bg-white text-sm font-semibold text-black shadow-[0_0_14px_rgba(255,255,255,0.35)] ring-1 ring-white/70 transition duration-200 group-hover:-translate-y-[1px] group-hover:scale-[1.03] group-hover:shadow-[0_0_20px_rgba(255,255,255,0.5)]"
               >
-                GA
+                Ri
               </div>
 
               <div class="hidden xl:block">
-                <p class="text-sm font-medium leading-none">Gabriel</p>
+                <p class="text-sm font-medium leading-none">Ricardo</p>
                 <p class="mt-1 text-xs text-white/55">Minha conta</p>
               </div>
             </button>
@@ -250,7 +250,7 @@
               <h2
                 class="mt-4 max-w-2xl text-3xl font-semibold leading-tight tracking-tight sm:text-4xl lg:text-[42px]"
               >
-                Olá, Gabriel, bem-vindo novamente.
+                Olá, Ricardo, bem-vindo novamente.
               </h2>
 
               <p
