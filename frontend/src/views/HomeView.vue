@@ -88,11 +88,11 @@
               <div
                 class="flex h-9 w-9 items-center justify-center rounded-xl bg-white text-sm font-semibold text-black shadow-[0_0_14px_rgba(255,255,255,0.35)] ring-1 ring-white/70 transition duration-200 group-hover:-translate-y-[1px] group-hover:scale-[1.03] group-hover:shadow-[0_0_20px_rgba(255,255,255,0.5)]"
               >
-                Ri
+                {{ iniciais }}
               </div>
 
               <div class="hidden xl:block">
-                <p class="text-sm font-medium leading-none">Ricardo</p>
+                <p class="text-sm font-medium leading-none">{{ nomeUsuario }}</p>
                 <p class="mt-1 text-xs text-white/55">Minha conta</p>
               </div>
             </button>
@@ -104,27 +104,16 @@
               >
                 <div class="border-b border-white/10 px-4 py-4">
                   <p class="text-sm font-semibold text-white">
-                    Gabriel Albuquerque Silva
+                    {{ nomeUsuario }}
                   </p>
-                  <p class="mt-1 text-xs text-white/50">ADMIN</p>
+                  <p class="mt-1 text-xs text-white/50">{{ authStore.usuario?.login }}</p>
                 </div>
 
                 <div class="p-2">
-                  <RouterLink
-                    to="/administracao"
-                    class="flex items-center justify-between rounded-xl px-3 py-3 text-sm font-medium text-white/80 transition hover:bg-white/10 hover:text-white"
-                    @click="isUserMenuOpen = false"
-                  >
-                    <span>Administracao</span>
-                    <span
-                      class="mdi mdi-cog-outline text-[18px] text-white/45"
-                    ></span>
-                  </RouterLink>
-
                   <button
                     type="button"
                     class="flex w-full items-center justify-between rounded-xl px-3 py-3 text-sm font-medium text-[#ffb4b4] transition hover:bg-white/10 hover:text-white"
-                    @click="isUserMenuOpen = false"
+                    @click="handleLogout"
                   >
                     <span>Sair</span>
                     <span
@@ -219,7 +208,7 @@
                 <button
                   type="button"
                   class="flex w-full items-center justify-between py-4 text-left text-[15px] font-medium text-[#ffb4b4] transition hover:text-white"
-                  @click="isMobileMenuOpen = false"
+                  @click="handleLogout"
                 >
                   <span>Sair</span>
                   <span
@@ -250,7 +239,7 @@
               <h2
                 class="mt-4 max-w-2xl text-3xl font-semibold leading-tight tracking-tight sm:text-4xl lg:text-[42px]"
               >
-                Olá, Ricardo, bem-vindo novamente.
+                Olá, {{ nomeUsuario }}, bem-vindo novamente.
               </h2>
 
               <p
@@ -414,7 +403,12 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
+import { useRouter } from "vue-router";
+import { useAuthStore } from "@/stores/auth";
+
+const router = useRouter();
+const authStore = useAuthStore();
 
 const isMobileMenuOpen = ref(false);
 const isUserMenuOpen = ref(false);
@@ -426,6 +420,21 @@ function toggleMobileMenu() {
 function toggleUserMenu() {
   isUserMenuOpen.value = !isUserMenuOpen.value;
 }
+
+function handleLogout() {
+  isUserMenuOpen.value = false;
+  isMobileMenuOpen.value = false;
+  authStore.logout();
+  router.push({ name: "login" });
+}
+
+// Iniciais do nome do usuário logado (ex: "Ricardo" → "Ri")
+const iniciais = computed(() => {
+  const nome = authStore.usuario?.nome || "";
+  return nome.slice(0, 2).toUpperCase() || "?";
+});
+
+const nomeUsuario = computed(() => authStore.usuario?.nome || "");
 </script>
 
 <style scoped>
