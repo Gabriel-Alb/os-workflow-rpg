@@ -46,7 +46,7 @@
           <span class="text-slate-700 font-medium">Novo cliente</span>
         </div>
         <h1 class="mt-4 text-2xl font-semibold text-slate-900">Novo cliente</h1>
-        <p class="mt-1 mb-6 text-sm text-slate-500">Todos os campos são opcionais, exceto o nome.</p>
+        <p class="mt-1 mb-3 text-sm text-slate-500"></p>
 
         <!-- erro global -->
         <transition name="fade">
