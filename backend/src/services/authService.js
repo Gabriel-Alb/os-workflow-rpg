@@ -1,15 +1,10 @@
-const { pool } = require('../config/database');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const AppError = require('../utils/AppError');
+const authRepository = require('../repositories/authRepository');
 
 async function login(login, senha) {
-  const { rows } = await pool.query(
-    'SELECT id, nome, login, senha, ativo FROM usuarios WHERE login = $1 LIMIT 1',
-    [login]
-  );
-
-  const usuario = rows[0];
+  const usuario = await authRepository.buscarPorLogin(login);
 
   if (!usuario || !usuario.ativo) {
     throw AppError.unauthorized('Credenciais inválidas');
@@ -33,12 +28,9 @@ async function login(login, senha) {
 }
 
 async function me(usuarioId) {
-  const { rows } = await pool.query(
-    'SELECT id, nome, login, ativo, data_criacao FROM usuarios WHERE id = $1 LIMIT 1',
-    [usuarioId]
-  );
-  if (!rows[0]) throw AppError.notFound('Usuário não encontrado');
-  return rows[0];
+  const usuario = await authRepository.buscarPorId(usuarioId);
+  if (!usuario) throw AppError.notFound('Usuário não encontrado');
+  return usuario;
 }
 
 module.exports = { login, me };

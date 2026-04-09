@@ -1,67 +1,38 @@
-const { pool } = require('../config/database');
 const bcrypt = require('bcryptjs');
 const AppError = require('../utils/AppError');
+const usuariosRepository = require('../repositories/usuariosRepository');
 
 const SALT_ROUNDS = 12;
 
 async function listar() {
-  const { rows } = await pool.query(
-    'SELECT id, nome, login, ativo, data_criacao FROM usuarios ORDER BY nome'
-  );
-  return rows;
+  return usuariosRepository.listar();
 }
 
 async function buscarPorId(id) {
-  const { rows } = await pool.query(
-    'SELECT id, nome, login, ativo, data_criacao FROM usuarios WHERE id = $1',
-    [id]
-  );
-  if (!rows[0]) throw AppError.notFound('Usuário não encontrado');
-  return rows[0];
+  const usuario = await usuariosRepository.buscarPorId(id);
+  if (!usuario) throw AppError.notFound('Usuário não encontrado');
+  return usuario;
 }
 
 async function criar({ nome, login, senha, ativo = true }) {
-  const hash = await bcrypt.hash(senha, SALT_ROUNDS);
-  const { rows } = await pool.query(
-    `INSERT INTO usuarios (nome, login, senha, ativo)
-     VALUES ($1, $2, $3, $4)
-     RETURNING id, nome, login, ativo, data_criacao`,
-    [nome, login, hash, ativo]
-  );
-  return rows[0];
+  const senhaHash = await bcrypt.hash(senha, SALT_ROUNDS);
+  return usuariosRepository.criar({ nome, login, senhaHash, ativo });
 }
 
 async function atualizar(id, { nome, login, ativo }) {
   await buscarPorId(id);
-
-  const { rows } = await pool.query(
-    `UPDATE usuarios
-     SET nome = COALESCE($1, nome),
-         login = COALESCE($2, login),
-         ativo = COALESCE($3, ativo),
-         data_atualizacao = CURRENT_TIMESTAMP
-     WHERE id = $4
-     RETURNING id, nome, login, ativo, data_criacao`,
-    [nome, login, ativo, id]
-  );
-  return rows[0];
+  return usuariosRepository.atualizar(id, { nome, login, ativo });
 }
 
 async function trocarSenha(id, senhaAtual, novaSenha) {
-  const { rows } = await pool.query(
-    'SELECT senha FROM usuarios WHERE id = $1',
-    [id]
-  );
-  if (!rows[0]) throw AppError.notFound('Usuário não encontrado');
+  const registro = await usuariosRepository.buscarSenhaPorId(id);
+  if (!registro) throw AppError.notFound('Usuário não encontrado');
 
-  const valida = await bcrypt.compare(senhaAtual, rows[0].senha);
+  const valida = await bcrypt.compare(senhaAtual, registro.senha);
   if (!valida) throw AppError.badRequest('Senha atual incorreta');
 
-  const hash = await bcrypt.hash(novaSenha, SALT_ROUNDS);
-  await pool.query(
-    'UPDATE usuarios SET senha = $1, data_atualizacao = CURRENT_TIMESTAMP WHERE id = $2',
-    [hash, id]
-  );
+  const senhaHash = await bcrypt.hash(novaSenha, SALT_ROUNDS);
+  await usuariosRepository.atualizarSenha(id, senhaHash);
 }
 
 module.exports = { listar, buscarPorId, criar, atualizar, trocarSenha };
