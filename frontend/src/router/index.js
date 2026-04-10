@@ -20,36 +20,25 @@ const router = createRouter({
       name: 'novo-cliente',
       component: () => import('@/views/NovoClienteView.vue'),
     },
-    // Redireciona qualquer rota desconhecida para home
     {
       path: '/:pathMatch(.*)*',
       redirect: '/',
     },
   ],
-});
+})
 
-router.beforeEach((to) => {
-  const auth = useAuthStore();
-
-  if (!to.meta.public && !auth.isAuthenticated) {
-    return { name: "login" };
-  }
-
-  if (to.name === "login" && auth.isAuthenticated) {
-    return { name: "home" };
-  }
-});
-
-// Guard global — redireciona para /login se não autenticado
 router.beforeEach((to) => {
   const auth = useAuthStore()
-  if (!to.meta.publica && !auth.isAutenticado) {
+
+  if (!to.meta.publica && !auth.isAuthenticated) {
     return { name: 'login' }
   }
-  // Se já está logado e tenta acessar /login, vai para home
-  if (to.name === 'login' && auth.isAutenticado) {
+
+  if (to.name === 'login' && auth.isAuthenticated) {
     return { name: 'home' }
   }
+
+  return true
 })
 
 export default router
