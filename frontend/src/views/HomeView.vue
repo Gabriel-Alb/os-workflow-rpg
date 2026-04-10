@@ -106,10 +106,40 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
-import { useAuthStore } from '@/stores/auth'
-import AppLayout from '@/layouts/AppLayout.vue'
+import BaseActionCard from "@/components/base/BaseActionCard.vue";
+import BaseHeroSection from "@/components/base/BaseHeroSection.vue";
 
-const authStore = useAuthStore()
-const nomeUsuario = computed(() => authStore.usuario?.nome || '')
+const actionCards = [
+  {
+    to: "/novo-cliente",
+    icon: "mdi-account-plus-outline",
+    title: "Novo cliente",
+    description:
+      "Cadastre um novo cliente no sistema de forma rápida e organizada.",
+    contentClass: "bg-black",
+  },
+  {
+    to: "/new-os",
+    icon: "mdi-file-document-plus-outline",
+    title: "Nova O.S.",
+    description:
+      "Crie uma nova ordem de serviço com mais praticidade no fluxo.",
+    contentClass: "bg-[#111111]",
+  },
+  {
+    to: "/listar-clientes",
+    icon: "mdi-account-group-outline",
+    title: "Listar clientes",
+    description:
+      "Visualize e consulte os clientes já cadastrados no sistema.",
+    contentClass: "bg-black",
+  },
+  {
+    to: "/listar-os",
+    icon: "mdi-format-list-bulleted-square",
+    title: "Listar O.S.",
+    description: "Consulte e acompanhe as ordens de serviço cadastradas.",
+    contentClass: "bg-[#111111]",
+  },
+];
 </script>

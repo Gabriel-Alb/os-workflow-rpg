@@ -20,55 +20,59 @@
     class="sticky top-0 z-40 border-b border-black/10 bg-black/95 text-white backdrop-blur"
   >
     <div
-      class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8"
+      class="mx-auto flex w-full max-w-[1680px] items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:gap-6 lg:px-8 xl:px-10 2xl:px-12"
     >
       <!-- brand -->
-      <div class="flex items-center gap-3">
+      <div class="flex min-w-0 items-center gap-3 lg:flex-[0_0_auto]">
         <div
-          class="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/10 ring-1 ring-white/10"
+          class="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-white/10 ring-1 ring-white/10"
         >
           <span class="text-sm font-semibold tracking-wide text-white"></span>
         </div>
       </div>
 
       <!-- desktop nav -->
-      <nav class="hidden items-center gap-1 lg:flex">
+      <nav
+        class="hidden flex-1 items-center justify-center gap-1 lg:flex xl:gap-2 2xl:gap-3"
+      >
         <RouterLink
           to="/novo-cliente"
-          class="rounded-xl px-4 py-2 text-sm font-medium text-white/70 transition hover:bg-white/10 hover:text-white"
+          class="rounded-xl px-4 py-2 text-sm font-medium text-white/70 transition hover:bg-white/10 hover:text-white xl:px-5 2xl:px-6"
         >
           Novo cliente
         </RouterLink>
 
         <RouterLink
-          to="/nova-os"
-          class="rounded-xl px-4 py-2 text-sm font-medium text-white/70 transition hover:bg-white/10 hover:text-white"
+          to="/new-os"
+          class="rounded-xl px-4 py-2 text-sm font-medium text-white/70 transition hover:bg-white/10 hover:text-white xl:px-5 2xl:px-6"
         >
           Nova O.S.
         </RouterLink>
 
         <RouterLink
-          to="/listar-clientes"
-          class="rounded-xl px-4 py-2 text-sm font-medium text-white/70 transition hover:bg-white/10 hover:text-white"
+          to="/customer-list"
+          class="rounded-xl px-4 py-2 text-sm font-medium text-white/70 transition hover:bg-white/10 hover:text-white xl:px-5 2xl:px-6"
         >
           Listar clientes
         </RouterLink>
 
         <RouterLink
-          to="/listar-os"
-          class="rounded-xl px-4 py-2 text-sm font-medium text-white/70 transition hover:bg-white/10 hover:text-white"
+          to="/os-list"
+          class="rounded-xl px-4 py-2 text-sm font-medium text-white/70 transition hover:bg-white/10 hover:text-white xl:px-5 2xl:px-6"
         >
           Listar O.S.
         </RouterLink>
       </nav>
 
       <!-- right actions -->
-      <div class="flex items-center gap-2">
+      <div
+        class="flex items-center justify-end gap-2 lg:min-w-[72px] xl:min-w-[88px]"
+      >
         <!-- desktop user menu -->
         <div class="relative hidden md:block">
           <button
             type="button"
-            class="group flex items-center gap-3 rounded-2xl px-3 py-2"
+            class="group flex items-center gap-3 rounded-2xl px-3 py-2 transition hover:bg-white/5"
             @click="toggleUserMenu"
           >
             <div
@@ -153,7 +157,7 @@
             </RouterLink>
 
             <RouterLink
-              to="/nova-os"
+              to="/new-os"
               class="flex items-center justify-between border-b border-white/10 py-4 text-[15px] font-medium text-white/85 transition hover:text-white"
               @click="isMobileMenuOpen = false"
             >
@@ -164,7 +168,7 @@
             </RouterLink>
 
             <RouterLink
-              to="/listar-clientes"
+              to="/customer-list"
               class="flex items-center justify-between border-b border-white/10 py-4 text-[15px] font-medium text-white/85 transition hover:text-white"
               @click="isMobileMenuOpen = false"
             >
@@ -175,7 +179,7 @@
             </RouterLink>
 
             <RouterLink
-              to="/listar-os"
+              to="/os-list"
               class="flex items-center justify-between border-b border-white/10 py-4 text-[15px] font-medium text-white/85 transition hover:text-white"
               @click="isMobileMenuOpen = false"
             >
@@ -222,10 +226,12 @@ const isMobileMenuOpen = ref(false);
 const isUserMenuOpen = ref(false);
 
 function toggleMobileMenu() {
+  isUserMenuOpen.value = false;
   isMobileMenuOpen.value = !isMobileMenuOpen.value;
 }
 
 function toggleUserMenu() {
+  isMobileMenuOpen.value = false;
   isUserMenuOpen.value = !isUserMenuOpen.value;
 }
 </script>
