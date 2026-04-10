@@ -13,8 +13,6 @@
       ></div>
     </div>
 
-    <HomeHeader />
-
     <main
       class="relative mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-8 lg:px-8 lg:py-10"
     >
@@ -51,7 +49,6 @@
 <script setup>
 import BaseActionCard from "@/components/base/BaseActionCard.vue";
 import BaseHeroSection from "@/components/base/BaseHeroSection.vue";
-import HomeHeader from "@/components/layouts/HomeHeader.vue";
 
 const actionCards = [
   {
@@ -63,7 +60,7 @@ const actionCards = [
     contentClass: "bg-black",
   },
   {
-    to: "/nova-os",
+    to: "/new-os",
     icon: "mdi-file-document-plus-outline",
     title: "Nova O.S.",
     description:
